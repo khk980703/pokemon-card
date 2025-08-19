@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { supabase } from '../utils/supabaseClient'
 
 export default function AuthForm() {
   const [isNewUser, setIsNewUser] = useState(false)
@@ -17,7 +18,12 @@ export default function AuthForm() {
 
   const handleSignUp = async (e) => {
     e.preventDefault('You are signed up!')
-    // handleSignUp
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+    })
+    if (!error) setIsSigningUp(true)
+    console.log({ data, error })
   }
 
   let signInMessage = 'Sign In'
